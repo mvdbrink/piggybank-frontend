@@ -1,0 +1,30 @@
+.transaction {
+    display: flex;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.amount {
+    color: white;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    display: inline-block;
+    min-width: 6rem;
+}
+
+.amount-debit {
+    background-color: #5d8d5d;
+}
+
+.amount-credit {
+    background-color: #ec4242;
+}
+
+.transaction-description {
+    margin-left: 1rem;
+    flex: 1;
+}
+
+.transaction-date {
+    color: #7d7d7d;
+}
