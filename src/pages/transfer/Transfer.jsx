@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Alert from "../components/alert/Alert";
+import Alert from "../../components/alert/Alert";
 import "./Transfer.css"
 
 function Transfer() {
@@ -42,6 +42,7 @@ function Transfer() {
     return (
         <>
             <h1>Overboeken</h1>
+            <div className="container">
             <form onSubmit={submitForm}>
 
                 {/* From Account */}
@@ -84,7 +85,7 @@ function Transfer() {
                 {/* Amount */}
                 <div className="form-row">
                     <div style={{ position: "relative" }}>
-                        <label className="amount-input-label">
+                        <label htmlFor="amount" className="amount-input-label">
                             Bedrag
                             <div>
                             <select
@@ -104,6 +105,7 @@ function Transfer() {
                                 onChange={(e) => setAmount(e.target.value)}
                                 type="text"
                                 name="amount"
+                                id="amount"
                                 className="amount-input"
                                 placeholder=""
                                 required />
@@ -129,6 +131,7 @@ function Transfer() {
                     <button type="submit">Overboeken</button>
                 </div>
             </form>
+            </div>
         </>);
 }
 
