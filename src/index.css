@@ -34,10 +34,14 @@ h2 {
   margin-top: 0;
 }
 
-.amount-highlight {
-  display: inline-block;
-  padding: 1rem;
-  background-color: var(--primary);
-  color: white;
+input[type=text] { 
+  font-size: 1.2rem;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border-radius: 0.2rem;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid gray;
+  width: 300px;
+  display: block;
+  transition: all 0.3s;
   border-radius: 0.5rem;
 }

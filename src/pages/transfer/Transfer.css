@@ -5,18 +5,6 @@
     font-size: 1.5rem;
 }
 
-.amount-input {
-    font-size: 1.2rem;
-    padding: 0.75rem 2.5rem 0.75rem 1rem;
-    border-radius: 0.2rem;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid gray;
-    width: 300px;
-    display: block;
-    transition: all 0.3s;
-    border-radius: 0.5rem;
-}
-
 select,
 textarea {
     font-size: 1.2rem;
@@ -24,14 +12,14 @@ textarea {
     border-radius: 0.2rem;
     background-color: rgb(255, 255, 255);
     border: 1px solid gray;
-    width: 300px;
+    width: 350px;
     display: block;
     transition: all 0.3s;
     border-radius: 0.5rem;
 }
 
 textarea {
-    width: 350px;
+    width: 400px;
 }
 
 .form-row {

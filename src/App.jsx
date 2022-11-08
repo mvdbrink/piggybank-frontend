@@ -4,6 +4,7 @@ import Overview from './pages/overview/Overview';
 import { Route, Routes, NavLink } from "react-router-dom";
 import Transfer from './pages/transfer/Transfer';
 import TransactionOverview from './pages/transactions-overview/Transaction-Overview';
+import Settings from './pages/settings/Settings';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/" element={<Overview />}></Route>
           <Route path="/transactions" element={<TransactionOverview />}></Route>
           <Route path="/transfer" element={<Transfer />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
           <Route path="*" element={<div className=""><h1>Pagina niet gevonden.</h1><img src="/images/not-found.gif" alt="not-found" /></div>}></Route>
         </Routes>
       </main>
