@@ -34,7 +34,7 @@ h2 {
   margin-top: 0;
 }
 
-input[type=text] { 
+input[type=text], input[type=number] { 
   font-size: 1.2rem;
   padding: 0.75rem 2.5rem 0.75rem 1rem;
   border-radius: 0.2rem;
@@ -44,4 +44,20 @@ input[type=text] {
   display: block;
   transition: all 0.3s;
   border-radius: 0.5rem;
+}
+
+/***
+  Hide arrows in number input
+
+  Chrome, Safari, Edge, Opera 
+  */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

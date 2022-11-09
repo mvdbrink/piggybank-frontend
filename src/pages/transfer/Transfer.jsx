@@ -6,8 +6,8 @@ import "./Transfer.css"
 function Transfer() {
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
-    const [fromAccount, setFromAccount] = useState('1');
-    const [toAccount, setToAccount] = useState('');
+    const [fromAccountId, setFromAccountId] = useState('1');
+    const [toAccountId, setToAccountId] = useState('');
     const [currency, setCurrency] = useState('EURO');
     const [fundsTransfered, setFundsTransfered] = useState(false);
     const [accounts, setAccounts] = useState([]);
@@ -36,7 +36,7 @@ function Transfer() {
         // Make sure page does not refresh.
         e.preventDefault();
 
-        const form = { amount, description, fromAccount, toAccount };
+        const form = { amount, description, fromAccountId, toAccountId, currency };
         fetch("http://localhost:8080/api/v1/transactions", {
             method: "POST",
             headers: {
@@ -59,8 +59,8 @@ function Transfer() {
 
     const resetState = () => {
         setFundsTransfered(false);
-        setToAccount('');
-        setFromAccount('1');
+        setToAccountId('');
+        setFromAccountId('1');
         setDescription('');
         setAmount('');
         setCurrency('EURO');
@@ -104,8 +104,8 @@ function Transfer() {
                             Van rekening
                             <select
                                 name="account"
-                                value={fromAccount}
-                                onChange={(e) => setFromAccount(e.target.value)}>
+                                value={fromAccountId}
+                                onChange={(e) => setFromAccountId(e.target.value)}>
                                 <option value="1">{getActiveAccount()}</option>
                             </select>
                         </label>
@@ -118,10 +118,10 @@ function Transfer() {
                             <select
                                 required
                                 name="toaccount"
-                                value={toAccount}
-                                onChange={(e) => setToAccount(e.target.value)}>
+                                value={toAccountId}
+                                onChange={(e) => setToAccountId(e.target.value)}>
 
-                                <option disabled>Kies een ontvanger</option>
+                                <option disabled value="">Kies een ontvanger</option>
                                 <optgroup label="Adresboek">
                                     <option value="3">Bauke Ravestein</option>
                                     <option value="4">Cem Fuijk</option>
@@ -146,14 +146,17 @@ function Transfer() {
                                         onChange={(e) => setCurrency(e.target.value)}>
 
                                         <option value="EURO">&euro;</option>
-                                        <option value="DOLLAR">&#36;</option>
-                                        <option value="POUND">&#163;</option>
+                                        <option value="USD">&#36;</option>
+                                        <option value="GBP">&#163;</option>
                                     </select>
                                     <input
                                         style={{ display: 'inline-block' }}
                                         value={amount}
                                         onChange={(e) => setAmount(e.target.value)}
-                                        type="text"
+                                        type="number"
+                                        min="0.00" 
+                                        step=".01"
+                                        max="1000000"
                                         name="amount"
                                         id="amount"
                                         className="amount-input"
@@ -169,6 +172,7 @@ function Transfer() {
                     <div className="form-row">
                         <label>Omschrijving
                             <textarea
+                                required
                                 name="description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}>

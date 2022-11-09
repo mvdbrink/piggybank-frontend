@@ -1,9 +1,11 @@
 import './Settings.css';
 import { useState, useEffect } from 'react';
+import { NavLink } from "react-router-dom";
+import Alert from "../../components/alert/Alert";
 
 function Settings() {
-
     const [accountName, setAccountName] = useState('');
+    const [accountUpdated, setAccountUpdated] = useState(false);
     const [accounts, setAccounts] = useState([]);
 
     useEffect(() => {
@@ -26,7 +28,34 @@ function Settings() {
         // Make sure page does not refresh.
         e.preventDefault();
 
-        console.log(`Update ${accounts[0].id} with name ${accountName}`);
+        const body = { accountName , accountId: accounts[0].id};
+        fetch("http://localhost:8080/api/v1/accounts", {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body),
+        })
+            .then(
+                () => {
+                    setAccountUpdated(true);
+                },
+                (error) => {
+                    setAccountUpdated(false);
+                    console.log(error);
+                }
+            )
+    };
+
+    if (accountUpdated) {
+        return (
+            <>
+                <h1>Gelukt!</h1>
+                <Alert message={'Het is gelukt om je account bij te werken.'}></Alert>
+                <NavLink to="/settings" onClick={() => setAccountUpdated(false)}>Terug</NavLink>
+            </>
+        );
     }
 
     return (
