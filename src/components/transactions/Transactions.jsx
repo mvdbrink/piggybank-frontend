@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getUserId } from "../../authentication";
 
 import './Transactions.css'
 
@@ -8,7 +9,19 @@ function Transactions(props) {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    var fetchUrl = `http://localhost:8080/api/v1/transactions`;
+
+  fetch(`http://localhost:8080/api/v1/accounts`, {
+      headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-User-Id": getUserId()
+      },
+  })
+  .then(res => res.json())
+  .then(results => {
+    const currentAccountId = results.accounts[0].id;
+
+    var fetchUrl = `http://localhost:8080/api/v1/transactions/${currentAccountId}`;
 
     if (props.limit) {
       fetchUrl = fetchUrl + `?limit=${props.limit}`;
@@ -26,7 +39,10 @@ function Transactions(props) {
           setError(error);
         }
       )
+  });
   }, [props])
+
+
 
   const convertDate = (date) => {
     const formattedDate = new Date(date);

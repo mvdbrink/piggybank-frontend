@@ -1,19 +1,12 @@
 import './Login.css';
 import { useNavigate } from "react-router-dom";
+import { setUserId } from '../../authentication';
 
 function Login() {
     const navigate = useNavigate();
 
     const loginAsUser = (userId) => {
-        if (userId === 1) {
-            localStorage.setItem('userData', JSON.stringify({ userId: 1 }));
-        } else if (userId === 2) {
-            localStorage.setItem('userData', JSON.stringify({ userId: 2 }));
-        } else if (userId === 3) {
-            localStorage.setItem('userData', JSON.stringify({ userId: 3 }));
-        } else if (userId === 4) {
-            localStorage.setItem('userData', JSON.stringify({ userId: 4 }));
-        }
+        setUserId(userId);
         navigate(`/`);
     }
 

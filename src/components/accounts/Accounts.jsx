@@ -1,5 +1,6 @@
 import './Accounts.css'
 import { useEffect, useState } from "react";
+import { getUserId } from '../../authentication';
 
 function Accounts() {
 
@@ -8,7 +9,13 @@ function Accounts() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/accounts`)
+        fetch(`http://localhost:8080/api/v1/accounts`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "X-User-Id": getUserId()
+            }
+        })
             .then(res => res.json())
             .then(
                 (result) => {
@@ -36,7 +43,7 @@ function Accounts() {
         return (
             <>
                 <div className="accounts__account">
-                    <div className="accounts__balance">&euro; {getActiveAccount().balance}</div>
+                    <div className={getActiveAccount().balance > 0 ? 'accounts__balance amount-debit' : ' accounts__balance amount-credit'}>&euro; {getActiveAccount().balance}</div>
                     <div className="accounts__account-name">{getActiveAccount().name}</div>
                 </div>
             </>

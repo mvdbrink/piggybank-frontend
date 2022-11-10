@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { getUserId } from "../../authentication";
 import Alert from "../../components/alert/Alert";
 import "./Transfer.css"
 
@@ -13,7 +14,13 @@ function Transfer() {
     const [accounts, setAccounts] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/accounts`)
+        fetch(`http://localhost:8080/api/v1/accounts`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "X-User-Id": getUserId()
+            },
+        })
             .then(res => res.json())
             .then(
                 (result) => {
@@ -41,7 +48,8 @@ function Transfer() {
             method: "POST",
             headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-User-Id": getUserId()
             },
             body: JSON.stringify(form),
         })
@@ -106,7 +114,7 @@ function Transfer() {
                                 name="account"
                                 value={fromAccountId}
                                 onChange={(e) => setFromAccountId(e.target.value)}>
-                                <option value="1">{getActiveAccount()}</option>
+                                <option value={getActiveAccount().id}>{getActiveAccount()}</option>
                             </select>
                         </label>
                     </div>
@@ -123,9 +131,9 @@ function Transfer() {
 
                                 <option disabled value="">Kies een ontvanger</option>
                                 <optgroup label="Adresboek">
-                                    <option value="3">Bauke Ravestein</option>
-                                    <option value="4">Cem Fuijk</option>
-                                    <option value="5">Sophie de Blaak</option>
+                                    <option value="2">Sara Ravestein</option>
+                                    <option value="3">Cem Fuijk</option>
+                                    <option value="4">Sophie de Blaak</option>
                                 </optgroup>
 
                             </select>

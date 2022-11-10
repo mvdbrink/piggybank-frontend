@@ -2,6 +2,7 @@ import './Settings.css';
 import { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 import Alert from "../../components/alert/Alert";
+import { getUserId } from '../../authentication';
 
 function Settings() {
     const [accountName, setAccountName] = useState('');
@@ -9,12 +10,18 @@ function Settings() {
     const [accounts, setAccounts] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/accounts`)
+        fetch(`http://localhost:8080/api/v1/accounts`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "X-User-Id": getUserId()
+            },
+        })
             .then(res => res.json())
             .then(
                 (result) => {
                     setAccounts(result.accounts);
-                    
+
                     // No support for multiple accounts, so always return the first in the list.
                     setAccountName(result.accounts[0].name)
                 },
@@ -28,7 +35,7 @@ function Settings() {
         // Make sure page does not refresh.
         e.preventDefault();
 
-        const body = { accountName , accountId: accounts[0].id};
+        const body = { accountName, accountId: accounts[0].id };
         fetch("http://localhost:8080/api/v1/accounts", {
             method: "PUT",
             headers: {
@@ -64,6 +71,8 @@ function Settings() {
             <div className='container'>
                 <h3>Rekening naam aanpassen</h3>
                 <form onSubmit={submitForm}>
+
+                    {/* Account name input */}
                     <div className="form-row">
                         <div>
                             <label htmlFor="accountName" className="account-name-label">
