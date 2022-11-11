@@ -2,7 +2,7 @@ import './Alert.css';
 
 function Alert(props)  {
     return (
-    <div className="alert alert-success">
+    <div className="alert">
         {props.message}
     </div>);
 }

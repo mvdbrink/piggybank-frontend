@@ -1,6 +1,7 @@
-import './Login.css';
 import { useNavigate } from "react-router-dom";
 import { setUserId } from '../../authentication';
+
+import './Login.css';
 
 function Login() {
     const navigate = useNavigate();
@@ -9,7 +10,6 @@ function Login() {
         setUserId(userId);
         navigate(`/`);
     }
-
 
     return (
         <>

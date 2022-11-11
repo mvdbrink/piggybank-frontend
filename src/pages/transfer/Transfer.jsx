@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUserId } from "../../authentication";
 import Alert from "../../components/alert/Alert";
-import "./Transfer.css"
+
+import "./Transfer.css";
 
 function Transfer() {
     const [amount, setAmount] = useState('');
@@ -12,6 +13,7 @@ function Transfer() {
     const [currency, setCurrency] = useState('EURO');
     const [fundsTransfered, setFundsTransfered] = useState(false);
     const [accounts, setAccounts] = useState([]);
+    const [addressBook, setAddressBook] = useState([]);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/v1/accounts`, {
@@ -25,12 +27,19 @@ function Transfer() {
             .then(
                 (result) => {
                     setAccounts(result.accounts);
+                    setFromAccountId(result.accounts[0].id)
+                    setAddressBook([
+                        { name: 'Melvin Webster', accountId: 1 },
+                        { name: 'Sara Ravestein', accountId: 2 },
+                        { name: 'Cem Fuijk', accountId: 3 },
+                        { name: 'Sophie de Blaak', accountId: 4 }
+                    ].filter(addressBookItem => addressBookItem.accountId !== result.accounts[0].id))
                 },
                 (error) => {
                     console.log(error);
                 }
             )
-    }, []);
+    }, [fundsTransfered]);
 
     const getActiveAccount = () => {
         if (accounts && accounts[0]) {
@@ -68,7 +77,7 @@ function Transfer() {
     const resetState = () => {
         setFundsTransfered(false);
         setToAccountId('');
-        setFromAccountId('1');
+        setFromAccountId(getActiveAccount().id);
         setDescription('');
         setAmount('');
         setCurrency('EURO');
@@ -79,10 +88,10 @@ function Transfer() {
             case 'EURO':
                 return '€';
 
-            case 'DOLLAR':
+            case 'USD':
                 return '$';
 
-            case 'POUND':
+            case 'GBP':
                 return '£';
 
             default:
@@ -95,7 +104,7 @@ function Transfer() {
         return (
             <>
                 <h1>Gelukt!</h1>
-                <Alert message={<>Het is gelukt om {translateCurrency(currency)} {amount} over te maken!</>}></Alert>
+                <Alert message={<>&#128077; Het is gelukt om {translateCurrency(currency)} {amount} over te maken!</>}></Alert>
                 <NavLink to="/transfer" onClick={resetState}>Nog een overboeking</NavLink>
             </>
         );
@@ -131,11 +140,13 @@ function Transfer() {
 
                                 <option disabled value="">Kies een ontvanger</option>
                                 <optgroup label="Adresboek">
-                                    <option value="2">Sara Ravestein</option>
-                                    <option value="3">Cem Fuijk</option>
-                                    <option value="4">Sophie de Blaak</option>
+                                    {addressBook.map(addressBookItem => (
+                                        <option key={addressBookItem.accountId}
+                                            value={addressBookItem.accountId}>
+                                            {addressBookItem.name}
+                                        </option>
+                                    ))}
                                 </optgroup>
-
                             </select>
                         </label>
                     </div>
@@ -147,7 +158,7 @@ function Transfer() {
                                 Bedrag
                                 <div>
                                     <select
-                                        style={{ width: '50px', paddingRight: 0, display: 'inline-block' }}
+                                        className="transfer__currency"
                                         required
                                         name="currency"
                                         value={currency}
@@ -162,7 +173,7 @@ function Transfer() {
                                         value={amount}
                                         onChange={(e) => setAmount(e.target.value)}
                                         type="number"
-                                        min="0.00" 
+                                        min="0.00"
                                         step=".01"
                                         max="1000000"
                                         name="amount"
@@ -172,7 +183,6 @@ function Transfer() {
                                         required />
                                 </div>
                             </label>
-
                         </div>
                     </div>
 

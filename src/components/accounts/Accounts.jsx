@@ -1,6 +1,7 @@
-import './Accounts.css'
 import { useEffect, useState } from "react";
 import { getUserId } from '../../authentication';
+
+import './Accounts.css';
 
 function Accounts() {
 
@@ -43,7 +44,7 @@ function Accounts() {
         return (
             <>
                 <div className="accounts__account">
-                    <div className={getActiveAccount().balance > 0 ? 'accounts__balance amount-debit' : ' accounts__balance amount-credit'}>&euro; {getActiveAccount().balance}</div>
+                    <div className={getActiveAccount().balance >= 0 ? 'accounts__account-balance amount-debit' : ' accounts__account-balance amount-credit'}>&euro; {getActiveAccount().balance}</div>
                     <div className="accounts__account-name">{getActiveAccount().name}</div>
                 </div>
             </>

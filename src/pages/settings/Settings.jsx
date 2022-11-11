@@ -1,8 +1,10 @@
-import './Settings.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from "react-router-dom";
-import Alert from "../../components/alert/Alert";
+
 import { getUserId } from '../../authentication';
+import Alert from "../../components/alert/Alert";
+
+import './Settings.css';
 
 function Settings() {
     const [accountName, setAccountName] = useState('');
@@ -58,8 +60,8 @@ function Settings() {
     if (accountUpdated) {
         return (
             <>
-                <h1>Gelukt!</h1>
-                <Alert message={'Het is gelukt om je account bij te werken.'}></Alert>
+                <h1>Hoppa!</h1>
+                <Alert message={<>&#128077; Het is gelukt om je account bij te werken.</>}></Alert>
                 <NavLink to="/settings" onClick={() => setAccountUpdated(false)}>Terug</NavLink>
             </>
         );
@@ -67,7 +69,7 @@ function Settings() {
 
     return (
         <div className='settings'>
-            <h2>Account instellingen</h2>
+            <h1>Account instellingen</h1>
             <div className='container'>
                 <h3>Rekening naam aanpassen</h3>
                 <form onSubmit={submitForm}>
