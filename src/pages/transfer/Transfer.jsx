@@ -8,8 +8,8 @@ import "./Transfer.css";
 function Transfer() {
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
-    const [fromAccountId, setFromAccountId] = useState('1');
-    const [toAccountId, setToAccountId] = useState('');
+    const [senderAccountId, setSenderAccountId] = useState('1');
+    const [receiverAccountId, setReceiverAccountId] = useState('');
     const [currency, setCurrency] = useState('EURO');
     const [fundsTransfered, setFundsTransfered] = useState(false);
     const [accounts, setAccounts] = useState([]);
@@ -27,7 +27,7 @@ function Transfer() {
             .then(
                 (result) => {
                     setAccounts(result.accounts);
-                    setFromAccountId(result.accounts[0].id)
+                    setSenderAccountId(result.accounts[0].id)
                     setAddressBook([
                         { name: 'Melvin Webster', accountId: 1 },
                         { name: 'Sara Ravestein', accountId: 2 },
@@ -52,7 +52,7 @@ function Transfer() {
         // Make sure page does not refresh.
         e.preventDefault();
 
-        const form = { amount, description, fromAccountId, toAccountId, currency };
+        const form = { amount, description, senderAccountId, receiverAccountId, currency };
         fetch("http://localhost:8080/api/v1/transactions", {
             method: "POST",
             headers: {
@@ -76,8 +76,8 @@ function Transfer() {
 
     const resetState = () => {
         setFundsTransfered(false);
-        setToAccountId('');
-        setFromAccountId(getActiveAccount().id);
+        setReceiverAccountId('');
+        setSenderAccountId(getActiveAccount().id);
         setDescription('');
         setAmount('');
         setCurrency('EURO');
@@ -98,8 +98,7 @@ function Transfer() {
                 return '';
         }
     }
-
-    // render
+    
     if (fundsTransfered) {
         return (
             <>
@@ -115,28 +114,28 @@ function Transfer() {
             <div className="container">
                 <form onSubmit={submitForm}>
 
-                    {/* From Account */}
+                    {/* From (sender) account */}
                     <div className="form-row">
                         <label>
                             Van rekening
                             <select
                                 name="account"
-                                value={fromAccountId}
-                                onChange={(e) => setFromAccountId(e.target.value)}>
+                                value={senderAccountId}
+                                onChange={(e) => setSenderAccountId(e.target.value)}>
                                 <option value={getActiveAccount().id}>{getActiveAccount()}</option>
                             </select>
                         </label>
                     </div>
 
-                    {/* To Account */}
+                    {/* To (receiver) account */}
                     <div className="form-row">
                         <label>
                             Naar rekening
                             <select
                                 required
                                 name="toaccount"
-                                value={toAccountId}
-                                onChange={(e) => setToAccountId(e.target.value)}>
+                                value={receiverAccountId}
+                                onChange={(e) => setReceiverAccountId(e.target.value)}>
 
                                 <option disabled value="">Kies een ontvanger</option>
                                 <optgroup label="Adresboek">
