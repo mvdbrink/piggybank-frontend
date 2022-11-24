@@ -1,5 +1,5 @@
 const isLoggedIn = () => {
-    return !localStorage.getItem('userToken');
+    return localStorage.getItem('userToken') != null;
 }
 
 const setUserId = (userId) => {
