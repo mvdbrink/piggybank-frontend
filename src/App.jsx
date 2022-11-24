@@ -8,7 +8,7 @@ import Protected from './components/protected/Protected';
 import Settings from './pages/settings/Settings';
 import Login from './pages/login/Login';
 import { useNavigate } from "react-router-dom";
-import { logout } from './authentication';
+import {isLoggedIn, logout} from './authentication';
 
 
 function App() {
@@ -18,7 +18,6 @@ function App() {
     logout();
     navigate(`/login`);
   }
-
   return (
     <div className="app">
       <div className="sidenav">
@@ -37,7 +36,7 @@ function App() {
           </ul>
         </nav>
         <div className="app__logout">
-          <button onClick={logoutClicked}>Uitloggen</button>
+          {isLoggedIn()?<button onClick={logoutClicked}>Uitloggen</button>:<></>}
         </div>
       </div>
       <main>
